@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Create a new version and push tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v5.5ss
+        uses: mathieudutour/github-tag-action@v5.5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create a GitHub release
