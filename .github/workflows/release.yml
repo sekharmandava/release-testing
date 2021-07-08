@@ -42,4 +42,3 @@ jobs:
            channel: azure-notifications
            status: FAILED
            color: danger
-
