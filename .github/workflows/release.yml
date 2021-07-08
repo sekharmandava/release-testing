@@ -4,6 +4,9 @@ on:
     branches:
       - master
       - main
+  pull_request:
+    types: [ closed ]
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,4 +24,22 @@ jobs:
         with:
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
           release_name: Release ${{ steps.tag_version.outputs.new_tag }}
+      - name: Notify slack success
+        if: success()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1.1.2
+        with:
+           channel: azure-notifications
+           status: SUCCESS
+           color: good
+      - name: Notify slack fails
+        if: failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1.1.2
+        with:
+           channel: azure-notifications
+           status: FAILED
+           color: danger
 
